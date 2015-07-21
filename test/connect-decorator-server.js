@@ -2,7 +2,7 @@
 var React = require('react');
 var expect = require('expect.js');
 var {describe, it, before} = require('mocha');
-var connect = require('../').connect;
+var connect = require('../src/connect-decorator');
 
 describe('connect (on the server)', function () {
   before(function () {
@@ -50,7 +50,7 @@ describe('connect (on the server)', function () {
     class Component extends React.Component {
       render() {
         called = true;
-        expect(this.state).to.have.property('foo', value);
+        expect(this.props).to.have.property('foo', value);
         return React.createElement('div');
       }
     }

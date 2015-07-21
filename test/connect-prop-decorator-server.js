@@ -2,7 +2,7 @@
 var React = require('react');
 var expect = require('expect.js');
 var {describe, it, before} = require('mocha');
-var connectProp = require('../').connectProp;
+var connectProp = require('../src/connect-prop-decorator');
 
 describe('connectProp (on the server)', function () {
   before(function () {
@@ -16,7 +16,7 @@ describe('connectProp (on the server)', function () {
     store.unlisten = () => expect().fail();
 
     @connectProp('meh', 'noop')
-    class Component extends React.createClass {
+    class Component extends React.Component {
       render() {
         called = true;
         return React.createElement('div');
@@ -50,7 +50,7 @@ describe('connectProp (on the server)', function () {
     class Component extends React.Component {
       render() {
         called = true;
-        expect(this.state).to.have.property('foo', value);
+        expect(this.props).to.have.property('foo', value);
         return React.createElement('div');
       }
     }

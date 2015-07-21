@@ -3,7 +3,7 @@ var React = require('react/addons');
 var expect = require('expect.js');
 var Document = require('html-document');
 var {describe, it, afterEach, before, after} = require('mocha');
-var connectProp = require('../').connectProp;
+var connectProp = require('../src/connect-prop-decorator');
 
 describe('connectProp (in a browser)', function () {
   afterEach(function () {
@@ -38,17 +38,23 @@ describe('connectProp (in a browser)', function () {
 
     @connectProp('meh', 'foo')
     class Component extends React.Component {
+      render() {
+        return <div/>;
+      }
+    }
+
+    class OuterComponent extends React.Component {
       componentDidMount() {
         expect(called).to.equal(true);
         done();
       }
       render() {
-        return null;
+        return <Component meh={store}/>;
       }
     }
 
-    type = Component.type;
-    React.render(React.createElement(Component, {meh: store}), global.document.body);
+    type = Component;
+    React.render(React.createElement(OuterComponent), global.document.body);
   });
   it('unregisters the listener when the component is unmounted', function (done) {
     var called = false;
@@ -72,11 +78,11 @@ describe('connectProp (in a browser)', function () {
         done();
       }
       render() {
-        return React.createElement('div');
+        return <div/>;
       }
     }
 
-    type = Component.type;
+    type = Component;
     React.render(React.createElement(Component, {meh: store}), global.document.body);
     React.unmountComponentAtNode(global.document.body);
   });
@@ -91,7 +97,7 @@ describe('connectProp (in a browser)', function () {
     class Component extends React.Component {
       render() {
         called = true;
-        expect(this.state).to.have.property('foo', value);
+        expect(this.props).to.have.property('foo', value);
         return React.createElement('div');
       }
     }
@@ -99,7 +105,7 @@ describe('connectProp (in a browser)', function () {
     React.render(React.createElement(Component, {meh: store}), global.document.body);
     expect(called).to.be(true);
   });
-  it('updates the state when the store emits', function (done) {
+  it('updates the props when the store emits', function (done) {
     var value = 'potato';
     var newValue = 'tomato';
     var listeners = [];
@@ -109,10 +115,16 @@ describe('connectProp (in a browser)', function () {
 
     @connectProp('meh', 'foo')
     class Component extends React.Component {
-      componentWillUpdate(props, state) {
-        expect(state).to.have.property('foo', newValue);
+      componentWillUpdate(props) {
+        expect(props).to.have.property('foo', newValue);
         done();
       }
+      render() {
+        return <div/>;
+      }
+    }
+
+    class OuterComponent extends React.Component {
       componentDidMount() {
         expect(listeners.length).to.equal(1);
         value = newValue;
@@ -121,11 +133,11 @@ describe('connectProp (in a browser)', function () {
         });
       }
       render() {
-        return React.createElement('div');
+        return <Component meh={store}/>;
       }
     }
 
-    React.render(React.createElement(Component, {meh: store}), global.document.body);
+    React.render(React.createElement(OuterComponent), global.document.body);
   });
   describe('when the prop changes', function () {
     it('updates the state', function (done) {
@@ -144,9 +156,8 @@ describe('connectProp (in a browser)', function () {
 
       @connectProp('meh', 'foo')
       class Component extends React.Component {
-        componentWillUpdate(props, state) {
-          expect(props).to.have.property('meh', store2);
-          expect(state).to.have.property('foo', newValue);
+        componentWillUpdate(props) {
+          expect(props).to.have.property('foo', newValue);
           done();
         }
         componentDidMount() {
@@ -195,7 +206,7 @@ describe('connectProp (in a browser)', function () {
         }
       }
 
-      type = Component.type;
+      type = Component;
       React.render(React.createElement(Component, {meh: store1}), global.document.body);
     });
     it('registers a new listener', function (done) {
@@ -230,7 +241,7 @@ describe('connectProp (in a browser)', function () {
         }
       }
 
-      type = Component.type;
+      type = Component;
       React.render(React.createElement(Component, {meh: store1}), global.document.body);
     });
     describe('when the prop is identical', function () {
@@ -277,9 +288,8 @@ describe('connectProp (in a browser)', function () {
 
         @connectProp('meh', 'foo')
         class Component extends React.Component {
-          componentWillUpdate(props, state) {
-            expect(props.meh).to.be(undefined);
-            expect(state.foo).to.be(undefined);
+          componentWillUpdate(props) {
+            expect(props.foo).to.be(undefined);
             done();
           }
           componentDidMount() {
@@ -301,7 +311,7 @@ describe('connectProp (in a browser)', function () {
       @connectProp('fourOhFour', 'missing')
       class Component extends React.Component {
         componentDidMount() {
-          expect(this.state).not.to.have.property('missing');
+          expect(this.props).not.to.have.property('missing');
           called = true;
         }
         componentWillUnmount() {
@@ -317,7 +327,7 @@ describe('connectProp (in a browser)', function () {
       React.unmountComponentAtNode(global.document.body);
     });
     describe('when the prop changes', function () {
-      it('updates the state', function (done) {
+      it('updates the prop', function (done) {
         var value = 'potato';
         var store = () => value;
         store.unlisten = x => x;
@@ -329,9 +339,8 @@ describe('connectProp (in a browser)', function () {
 
         @connectProp('meh', 'foo')
         class Component extends React.Component {
-          componentWillUpdate(props, state) {
-            expect(props).to.have.property('meh', store);
-            expect(state).to.have.property('foo', value);
+          componentWillUpdate(props) {
+            expect(props).to.have.property('foo', value);
             done();
           }
           componentDidMount() {
@@ -373,7 +382,7 @@ describe('connectProp (in a browser)', function () {
           }
         }
 
-        type = Component.type;
+        type = Component;
         React.render(React.createElement(Component), global.document.body);
       });
       describe('if the prop is still missing', function () {
@@ -385,9 +394,8 @@ describe('connectProp (in a browser)', function () {
 
           @connectProp('fourOhFour', 'missing')
           class Component extends React.Component {
-            componentWillUpdate(props, state) {
-              expect(props.meh).to.be(undefined);
-              expect(state.foo).to.be(undefined);
+            componentWillUpdate(props) {
+              expect(props.foo).to.be(undefined);
               done();
             }
             componentDidMount() {

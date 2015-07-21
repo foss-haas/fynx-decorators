@@ -33,67 +33,21 @@ npm run dist
 
 # API
 
-## listenTo(listenable, listener):Decorator
-
-Creates a React decorator that registers the given listener function with the given `listenable` store or action (or anything that has methods `listen(fn, ctx)` and `unlisten(fn, ctx)`). The listener will be invoked with its context set to the React component.
-
-If `listener` is a string, the component's method with the given name will be used.
-
-Registers the listener on `componentDidMount` and unregisters it on `componentWillUnmount`.
-
-## listenToProp(propName, listener):Decorator
-
-Creates a React decorator that registers the given listener function with the store or action (or anything that has methods `listen(fn, ctx)` and `unlisten(fn, ctx)`) in the prop `propName`. The listener will be invoked with its context set to the React component.
-
-Automatically reacts to prop changes.
-
-If `listener` is a string, the component's method with the given name will be used.
-
-Registers the listener on `componentDidMount` and unregisters it on `componentWillUnmount`.
-
 ## connect(store, name):Decorator
 
-Creates a React decorator that updates the component's state by setting `name` to the store's value whenever the store's value changes.
+Creates a React decorator that updates the component's props by setting the prop identified by `name` to the store's value whenever the store's value changes.
 
-Automatically adds the store's current value to the component's initial state.
+Automatically adds the store's current value to the component's initial props.
 
 Registers the listener on `componentDidMount` and unregisters it on `componentWillUnmount`.
 
 ## connectProp(propName, name):Decorator
 
-Creates a React decorator that updates the component's state by setting `name` to the value of the store in the prop `propName` whenever the store's value changes.
+Creates a React decorator that updates the component's props by setting the prop identified by `name` to the value of the store in the outer prop `propName` whenever the store's value changes.
 
-Automatically adds the store's current value to the component's initial state and reacts to prop changes.
-
-Registers the listener on `componentDidMount` and unregisters it on `componentWillUnmount`.
-
-## connectVia(stores, fn):Decorator
-
-Creates a React decorator that updates the component's state by passing the current value of each store in `stores` to the given function `fn` whenever any of the stores changes. The function will be invoked with its context set to the React component.
-
-Automatically adds the result of invoking the function with the current value of each store to the component's initial state.
-
-If `fn` is a string, the component's method with the given name will be used.
-
-If `stores` is not an array, it will be wrapped in an array automatically.
+Automatically adds the store's current value to the component's initial props and reacts to outer prop changes.
 
 Registers the listener on `componentDidMount` and unregisters it on `componentWillUnmount`.
-
-**Examples**
-
-```js
-@connectVia([aStore, bStore], 'update')
-class Foo extends React.Component {
-  update: function (aVal, bVal) { // invoked whenever either of the stores changes
-    return {
-      a: aVal,
-      b: bVal.get(this.props.qux), // `this` works as usual
-      c: aVal.get(bVal.get('foo')) // this.state.c depends on both stores
-    };
-  },
-  // ...
-}
-```
 
 # License
 
