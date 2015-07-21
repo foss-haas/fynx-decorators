@@ -1,0 +1,58 @@
+{
+  "name": "fynx-decorators",
+  "version": "1.0.0-dev",
+  "description": "Fynx decorators for class-based React components.",
+  "main": "lib/index.js",
+  "keywords": [
+    "fynx",
+    "flox",
+    "flux",
+    "react",
+    "immutable",
+    "store",
+    "action",
+    "axn",
+    "mixin"
+  ],
+  "files": [
+    "lib/",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "lint": "eslint src test",
+    "test": "mocha --compilers js:babel/register --growl -R spec",
+    "cover": "npm run lint && istanbul cover --report lcov _mocha -- --compilers js:babel/register -R spec",
+    "coveralls": "npm run cover && cat ./coverage/lcov.info | coveralls ; rm -rf ./coverage",
+    "babel": "babel -d lib src",
+    "dist": "npm run babel && NODE_ENV=production webpack lib/index.js dist/fynx-decorators.js && NODE_ENV=production COMPRESS=1 webpack lib/index.js dist/fynx-decorators.min.js",
+    "dist-watch": "watch 'npm run dist' src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/foss-haas/fynx-decorators.git"
+  },
+  "author": "Alan Plum <me@pluma.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/foss-haas/fynx-decorators/issues"
+  },
+  "homepage": "https://github.com/foss-haas/fynx-decorators",
+  "devDependencies": {
+    "babel": "^5.6.23",
+    "babel-eslint": "^3.1.24",
+    "coveralls": "^2.11.3",
+    "eslint": "^0.24.1",
+    "expect.js": "^0.3.1",
+    "html-document": "^0.8.1",
+    "istanbul": "^0.3.2",
+    "mocha": "^2.0.1",
+    "react": "^0.13.3",
+    "rewire": "^2.1.0",
+    "sinon": "^1.11.0",
+    "watch": "^0.16.0",
+    "webpack": "^1.5.1"
+  },
+  "dependencies": {}
+}

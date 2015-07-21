@@ -1,0 +1,36 @@
+{
+  "name": "fynx-decorators",
+  "description": "Fynx decorators for class-based React components.",
+  "author": {
+    "name": "Alan Plum <me@pluma.io>",
+    "url": "http://foss-haas.github.io/fynx-decorators"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/foss-haas/fynx-decorators.git"
+  },
+  "main": "dist/fynx-decorators.js",
+  "license": "MIT",
+  "dependencies": {
+    "immutable": "^3.6.2"
+  },
+  "ignore": [
+    "**/.*",
+    "test",
+    "src",
+    "lib",
+    "node_modules",
+    "package.json"
+  ],
+   "keywords": [
+     "fynx",
+     "flox",
+     "flux",
+     "react",
+     "immutable",
+     "store",
+     "action",
+     "axn",
+     "mixin"
+  ]
+}
