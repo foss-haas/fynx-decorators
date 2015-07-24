@@ -1,6 +1,6 @@
 {
   "name": "fynx-decorators",
-  "version": "1.0.0-dev",
+  "version": "1.0.0",
   "description": "Fynx decorators for class-based React components.",
   "main": "lib/index.js",
   "keywords": [
