@@ -1,7 +1,6 @@
-[Fynx](http://foss-haas.github.io/fynx) is an architecture library for [React](http://facebook.github.io/react). The **fynx-decorators** module provides store decorators for class-based React components.
+**NOTE:** This package is no longer being maintained. If you are interested in taking over as maintainer or are interested in the npm package name, get in touch by creating an issue.
 
-[![Gitter](https://img.shields.io/badge/gitter-join_chat-1dce73.svg?style=flat-square)](https://gitter.im/foss-haas/fynx)
-[![Slack](https://img.shields.io/badge/slack-fynx%40reactiflux-61dafb.svg?style=flat-square)](https://reactiflux.slack.com/messages/fynx/)
+[Fynx](http://foss-haas.github.io/fynx) is an architecture library for [React](http://facebook.github.io/react). The **fynx-decorators** module provides store decorators for class-based React components.
 
 [![license - MIT](https://img.shields.io/npm/l/fynx-decorators.svg?style=flat-square)](http://foss-haas.mit-license.org) [![Dependencies](https://img.shields.io/david/foss-haas/fynx-decorators.svg?style=flat-square)](https://david-dm.org/foss-haas/fynx-decorators)
 
